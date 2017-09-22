@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -77,18 +78,18 @@ class WelcomeController {
     }
 
     @GetMapping("/")
-    public Iterable<Person> hello() {
+    public Iterable<Person> getPerson() {
         return personRepo.findAll();
     }
 
     @GetMapping("/{id}")
-    public Person hello(@PathVariable String id) {
+    public Person getPerson(@PathVariable String id) {
         return personRepo.findOne(id);
     }
 
 
     @PutMapping("/")
-    public Person hello(@RequestBody Person person) {
+    public Person update(@RequestBody Person person) {
         return personRepo.save(person);
     }
 
@@ -106,7 +107,7 @@ class AuditController {
         this.javers = javers;
     }
 
-    @GetMapping("/person")
+    @GetMapping(value = "/person", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getPersonChanges() {
         QueryBuilder jqlQuery = QueryBuilder.byClass(Person.class);
 
